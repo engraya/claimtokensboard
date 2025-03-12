@@ -69,19 +69,19 @@ function LoginPage() {
       }
     );
   
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const { email, phone, password } = formData;
+    // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    //   e.preventDefault();
+    //   const { email, phone, password } = formData;
   
-      // Validate form data
-      if (!email || !phone || !password) {
-        toast.error("Email, phone number, and password are required.");
-        return;
-      }
+    //   // Validate form data
+    //   if (!email || !phone || !password) {
+    //     toast.error("Email, phone number, and password are required.");
+    //     return;
+    //   }
   
-      // Trigger the mutation
-      mutation.mutate({ email, phone, password });
-    };
+    //   // Trigger the mutation
+    //   mutation.mutate({ email, phone, password });
+    // };
 
 
     const handleAuthRedirect = () => {
