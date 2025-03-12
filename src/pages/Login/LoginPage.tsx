@@ -94,9 +94,9 @@ function LoginPage() {
   return (
     <Wrapper>
       <div className="w-full md:w-[588px] flex-col justify-start items-center gap-8 inline-flex">
-      <div className="w-[93.14px] h-14 pl-[5.60px] pr-[5.74px] pt-[1.40px] justify-center items-center inline-flex">
+      <div className="w-[93.14px] h-10 pl-[5.60px] pr-[5.74px] pt-[1.40px] justify-center items-center inline-flex">
             <div className="relative flex-col justify-start items-start flex">
-                <img className="w-[100px]" src={coinlogo} alt="logo" />
+                <img className="w-[80px]" src={coinlogo} alt="logo" />
             </div>
         </div>
         <div className="self-stretch px-4 pt-11 pb-12 bg-[#f4f5f9] rounded-2xl flex-col justify-start items-center gap-8 flex">
