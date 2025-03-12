@@ -2,9 +2,9 @@ import Wrapper from '../../components/Wrapper/Wrapper'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { useMutation } from "react-query";
+// import { useMutation } from "react-query";
 import { toast } from 'react-toastify';
-import { apiClient } from '../../api/axios';
+// import { apiClient } from '../../api/axios';
 import { useDispatch } from "react-redux";
 import { loginUser } from '../../store/reducers/auth';
 import { coinlogo } from '../../assets';
@@ -31,14 +31,14 @@ function LoginPage() {
     };
   
     // Mutation for login API
-    const mutation = useMutation(
-      async (data: typeof formData) => {
-        const response = await apiClient.post(
-          "/auth/login",
-          data
-        );
-        return response.data;
-      },
+    // const mutation = useMutation(
+    //   async (data: typeof formData) => {
+    //     const response = await apiClient.post(
+    //       "/auth/login",
+    //       data
+    //     );
+    //     return response.data;
+    //   },
       {
         onSuccess: (data) => {
           toast.success('Login successful!!...', {
