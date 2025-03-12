@@ -2,9 +2,9 @@ import Wrapper from '../../components/Wrapper/Wrapper'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-// import { useMutation } from "react-query";
+import { useMutation } from "react-query";
 import { toast } from 'react-toastify';
-// import { apiClient } from '../../api/axios';
+import { apiClient } from '../../api/axios';
 import { useDispatch } from "react-redux";
 import { loginUser } from '../../store/reducers/auth';
 import { coinlogo } from '../../assets';
@@ -39,35 +39,35 @@ function LoginPage() {
     //     );
     //     return response.data;
     //   },
-      {
-        onSuccess: (data) => {
-          toast.success('Login successful!!...', {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light"
-          });
-          dispatch(loginUser(data));
-          navigate("/"); 
-        },
-        onError: (error: any) => {
-          toast.error(error.response?.data?.message || "Something went wrong!", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light"
-          });
-        },
-      }
-    );
+    //   {
+    //     onSuccess: (data) => {
+    //       toast.success('Login successful!!...', {
+    //         position: "top-center",
+    //         autoClose: 5000,
+    //         hideProgressBar: false,
+    //         closeOnClick: false,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //         theme: "light"
+    //       });
+    //       dispatch(loginUser(data));
+    //       navigate("/"); 
+    //     },
+    //     onError: (error: any) => {
+    //       toast.error(error.response?.data?.message || "Something went wrong!", {
+    //         position: "top-center",
+    //         autoClose: 5000,
+    //         hideProgressBar: false,
+    //         closeOnClick: false,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //         theme: "light"
+    //       });
+    //     },
+    //   }
+    // );
   
     // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     //   e.preventDefault();
