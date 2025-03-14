@@ -3,7 +3,10 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Dropdown } from "flowbite-react";
 import { Link } from "react-router-dom"
-
+import { logoutUser } from "../../store/reducers/auth";
+import { useDispatch } from "react-redux";
+import LogoutModal from "../Modals/LogoutModal";
+import { useState } from "react";
 
 
 type Props = {
@@ -13,6 +16,13 @@ type Props = {
 export default function Header({ setShowSideBar, showSideBar }: Props) {
   const location = useLocation();
   const currentUser = useSelector((state: any) => state.auth.currentUser);
+  const [openModal, setOpenModal] = useState(false);
+    const dispatch = useDispatch();
+
+   const handlelogout = () => {
+      dispatch(logoutUser());
+      
+    };
 
 
    // Map route paths to their corresponding names
@@ -99,7 +109,7 @@ export default function Header({ setShowSideBar, showSideBar }: Props) {
                   <Dropdown.Item>Dashboard</Dropdown.Item>
                 </Link>
                 <Dropdown.Divider />
-                <Dropdown.Item>Sign out</Dropdown.Item>
+                <Dropdown.Item onClick={() => setOpenModal(true)}>Sign out</Dropdown.Item>
               </Dropdown>
             </div>
 
@@ -107,6 +117,13 @@ export default function Header({ setShowSideBar, showSideBar }: Props) {
           </div>
         </div>
       </div>
+                {/* Logout Modal */}
+        {openModal && (
+        <LogoutModal
+          onClose={() => setOpenModal(false)}
+          onConfirm={handlelogout}
+        />
+      )}
     </nav>
   );
 }
