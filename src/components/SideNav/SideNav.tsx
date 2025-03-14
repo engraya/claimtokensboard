@@ -1,12 +1,12 @@
 import React from "react";
 import { Flowbite } from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
-// import { logoutUser } from "../../store/reducers/auth";
-// import { useDispatch } from "react-redux";
+import { logoutUser } from "../../store/reducers/auth";
+import { useDispatch } from "react-redux";
 import LogoutModal from "../Modals/LogoutModal";
 import { useState } from "react";
 import { coinlogo } from "../../assets";
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 const customTheme = {
   button: {
     color: {
@@ -27,14 +27,14 @@ type Props = {
 function SideNav({ showSideBar }: Props) {
 
   const [openModal, setOpenModal] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const location = useLocation();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handlelogout = () => {
-    // dispatch(logoutUser());
-    navigate("/auth/login");
+    dispatch(logoutUser());
+    // navigate("/auth/login");
     
   };
 

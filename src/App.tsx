@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-// import PrivateRoute from "./routes/PrivateRoute";
+import PrivateRoute from "./routes/PrivateRoute";
 import Main from "./components/Main/Main";
 import { Flowbite } from "flowbite-react";
 import LoginPage from "./pages/Login/LoginPage";
-// import PublicRoute from "./routes/PublicRoute";
+import PublicRoute from "./routes/PublicRoute";
 import AuthPage from "./pages/Auth/AuthPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -41,19 +41,17 @@ function App() {
         <div className="bg-[#ffffff] min-h-screen">
           <Router>
             <Routes>
-              {/* <Route path="/auth" element={<PublicRoute />}> */}
+              <Route path="/auth" element={<PublicRoute />}>
                 <Route path="/auth" element={<AuthPage />} />
                 <Route path="/auth/login" element={<LoginPage />} />
-              {/* </Route> */}
-              {/* <Route path="/" element={<PrivateRoute />}> */}
+              </Route>
+              <Route path="/" element={<PrivateRoute />}>
               <Route path="/" element={<Main />}>
                   {/* Nested routes */}
                   <Route index element={<Home />} />
                   <Route path="dashboard" element={<Home />} />
-        
                 </Route>
-              {/* </Route> */}
-   
+              </Route>
             </Routes>
             <ToastContainer />
           </Router>

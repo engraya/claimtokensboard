@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Dropdown } from "flowbite-react";
 import { Link } from "react-router-dom"
 
@@ -12,6 +12,7 @@ type Props = {
 };
 export default function Header({ setShowSideBar, showSideBar }: Props) {
   const location = useLocation();
+  const currentUser = useSelector((state: any) => state.auth.currentUser);
 
 
    // Map route paths to their corresponding names
@@ -38,7 +39,7 @@ export default function Header({ setShowSideBar, showSideBar }: Props) {
               </span>
             )}
             <span className="text-[#3395ff] text-xl font-medium font-['Mulish']">
-              User
+            {currentRouteName === "Back" ? currentUser?.data?.fullname : ""}
             </span>
           </div>
           </div>
@@ -64,7 +65,7 @@ export default function Header({ setShowSideBar, showSideBar }: Props) {
                 </span>
               )}
               <span className="text-[#3395ff] text-md font-medium font-['Mulish']">
-                User
+              {currentRouteName === "Back" ? currentUser?.data?.fullname : ""}
               </span>
             </div>
       </div>
@@ -85,13 +86,14 @@ export default function Header({ setShowSideBar, showSideBar }: Props) {
                     className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold"
                     style={{ width: '40px', height: '40px' }}
                   >
-                    U
+                   {currentUser.data?.fullname?.charAt(0).toUpperCase()}
                   </div>
                 }
               >
                 <Dropdown.Header>
-                  <span className="block text-sm">User</span>
-                  <span className="block truncate text-sm font-medium">user@gmail.com</span>
+                <span className="block text-sm">{currentUser?.data?.fullname}</span>
+                <span className="block truncate text-sm font-medium">{currentUser?.data?.email}</span>
+                <span className="block truncate text-sm font-medium">{currentUser?.data?.phone}</span>
                 </Dropdown.Header>
                 <Link to="/dashboard">
                   <Dropdown.Item>Dashboard</Dropdown.Item>

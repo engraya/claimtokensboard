@@ -1,7 +1,11 @@
 import DashbaordCard from '../DashboardCard'
 import PagesWrapper from '../PagesWrapper'
 import TotalEarnings from './TotalEarnings'
+import { useSelector } from "react-redux";
 function Dashboard() {
+
+
+    const currentUser = useSelector((state: any) => state.auth.currentUser);
 
 
   const totalEarningsSvg = <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
@@ -23,10 +27,10 @@ function Dashboard() {
 
     // Dynamically map statsData to card structure
     const dynamicCardsData =  [
-      { id: 1, title: "TOTAL USDT", value: `${200}`, icon: totalEarningsSvg },
-      { id: 2, title: "TOTAL AFRIQT", value: `${500}`, icon: totalWidthrawalSvg },
-      { id: 3, title: "TOTAL CLAIMED", value: `${700}`, icon: totalDepositSvg },
-      { id: 3, title: "TOTAL REMAINING", value: `${700}`, icon: totalDepositSvg },
+      { id: 1, title: "TOTAL USDT", value: `${currentUser?.data?.usdtAmount}`, icon: totalEarningsSvg },
+      { id: 2, title: "TOTAL AFRIQT", value: `${currentUser?.data?.tokenQuantity}`, icon: totalWidthrawalSvg },
+      { id: 3, title: "TOTAL CLAIMED", value: `${0}`, icon: totalDepositSvg },
+      { id: 3, title: "TOTAL REMAINING", value: `${0}`, icon: totalDepositSvg },
     ]
 
   return (
