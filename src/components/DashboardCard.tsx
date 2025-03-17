@@ -21,7 +21,7 @@ function DashboardCard({ title, value, icon } : CardProps) {
                 <div className="text-[#6e7080] text-md whitespace-nowrap font-bold font-['Mulish'] leading-[28.80px]">{title}</div>
             </div>
             <div className="justify-start items-baseline gap-2 inline-flex">
-                <div className="text-[#07070a] whitespace-nowrap text-[28px] font-semibold font-['Mulish']">{value}</div>
+                <div className="text-[#07070a] whitespace-nowrap text-[24px] font-semibold font-['Mulish']">{value}</div>
             </div>
         </div>
     </div>
