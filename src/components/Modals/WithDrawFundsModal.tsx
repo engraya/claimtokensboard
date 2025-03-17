@@ -1,10 +1,69 @@
-
-
+import { useState } from 'react';
+import { useMutation } from 'react-query';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { apiClient } from '../../api/axios';
+import { Spinner } from 'flowbite-react';
 type WithdarawModalProps = {
     onClose: () => void;
   };
 
 function WithDrawFundsModal({ onClose } : WithdarawModalProps) {
+    const currentUser = useSelector((state: any) => state.auth.currentUser);
+    const userId = currentUser?.data?.userId;
+
+    const [walletAddress, setWalletAddress] = useState('');
+    
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setWalletAddress(e.target.value);
+    };
+
+    const mutation = useMutation(
+        async (data: { userId: string; userWallet: string }) => {
+            const response = await apiClient.post(
+                "/v1/token/claim-tokens",
+                data
+            );
+            return response.data;
+        },
+        {
+            onSuccess: () => {
+                toast.success('Tokens claimed successfully!', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light"
+                });
+                onClose();
+        
+            },
+            onError: (error: any) => {
+                toast.error(error.response?.data?.message || "Something went wrong!", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light"
+                });
+            },
+        }
+    );
+
+    const handleClaim = () => {
+        if (!walletAddress || !userId) {
+            toast.error("Wallet address and user ID are required!");
+            return;
+        }
+        mutation.mutate({ userId, userWallet: walletAddress });
+    };
+
   return (
 <div className="fixed inset-0 z-50 flex items-center p-4 justify-center bg-[#9c9ea8] bg-opacity-50 transition duration-700 ease-in-out">
 <div className="w-[400px] pb-8 bg-white rounded-xl flex-col justify-start items-start inline-flex">
@@ -27,6 +86,8 @@ function WithDrawFundsModal({ onClose } : WithdarawModalProps) {
                     <input 
                         type="text"
                         id="address"
+                        value={walletAddress}
+                        onChange={handleChange}
                         className="text-gray-900 text-sm self-stretch h-12 px-5 py-[8px] bg-white rounded border border-[#dcdfea] justify-start items-center gap-4  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600"
                         placeholder="Enter your wallet address here"
                         required
@@ -35,9 +96,11 @@ function WithDrawFundsModal({ onClose } : WithdarawModalProps) {
                 </div>
             </div>
         </div>
-        <button onClick={onClose} className="self-stretch cursor-pointer px-4 py-2 bg-[#137af0] rounded justify-center items-center inline-flex overflow-hidden">
+        <button onClick={handleClaim} disabled={!walletAddress || mutation.isLoading} className="self-stretch cursor-pointer px-4 py-2 bg-[#137af0] rounded justify-center items-center inline-flex overflow-hidden disabled:bg-[#999db1] disabled:opacity-50 disabled:cursor-not-allowed">
             <div className="justify-center items-center gap-2 flex">
-                <div className="text-white text-base font-medium font-['Mulish']">Claim</div>
+                <div className="text-white text-base font-medium font-['Mulish']">
+                {mutation.isLoading ? <Spinner color='#137af0'/> : "Claim"}
+                </div>
             </div>
         </button>
     </div>
