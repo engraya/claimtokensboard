@@ -5,7 +5,6 @@ import { logoutUser } from "../../store/reducers/auth";
 import { useDispatch } from "react-redux";
 import LogoutModal from "../Modals/LogoutModal";
 import { useState } from "react";
-import { coinlogo } from "../../assets";
 import { logo } from "../../assets";
 // import { useNavigate } from 'react-router-dom'
 const customTheme = {
