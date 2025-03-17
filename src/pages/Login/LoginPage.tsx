@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import { apiClient } from '../../api/axios';
 import { useDispatch } from "react-redux";
 import { loginUser } from '../../store/reducers/auth';
-import { coinlogo } from '../../assets';
 import { Spinner } from 'flowbite-react';
 import { logo } from '../../assets';
 
