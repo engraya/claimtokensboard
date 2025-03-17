@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import LogoutModal from "../Modals/LogoutModal";
 import { useState } from "react";
 import { coinlogo } from "../../assets";
+import { logo } from "../../assets";
 // import { useNavigate } from 'react-router-dom'
 const customTheme = {
   button: {
@@ -55,7 +56,7 @@ function SideNav({ showSideBar }: Props) {
           <Link to="/" className="flex justify-start gap-1 w-[151px] h-[53px] ">
             <div className="flex justify-start w-[150px]">
               <div className="flex justify-center items-center mx-auto w-[50px] h-[50px]">
-                <img height={100} width={100} src={coinlogo} alt="logo" />
+                <img height={100} width={100} src={logo} alt="logo" />
               </div>
             </div>
           </Link>
