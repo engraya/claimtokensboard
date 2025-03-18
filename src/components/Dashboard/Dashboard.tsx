@@ -2,10 +2,13 @@ import DashbaordCard from '../DashboardCard'
 import PagesWrapper from '../PagesWrapper'
 import TotalEarnings from './TotalEarnings'
 import { useSelector } from "react-redux";
+import ClaimedBadge from '../ClaimedBadge';
 function Dashboard() {
 
 
-    const currentUser = useSelector((state: any) => state.auth.currentUser);
+  const currentUser = useSelector((state: any) => state.auth.currentUser);
+
+  const claimedStatus = currentUser?.data?.claimed
 
 
   const totalEarningsSvg = <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
@@ -26,21 +29,21 @@ function Dashboard() {
 
 
     // Dynamically map statsData to card structure
-    const dynamicCardsData =  [
-      { id: 1, title: "TOTAL USDT", value: `${currentUser?.data?.usdtAmount}`, icon: totalEarningsSvg },
-      { id: 2, title: "TOTAL AFRIQT", value: `${currentUser?.data?.tokenQuantity}`, icon: totalWidthrawalSvg },
-      { id: 3, title: "TOTAL CLAIMED", value: `${0}`, icon: totalDepositSvg },
-      { id: 3, title: "TOTAL REMAINING", value: `${0}`, icon: totalDepositSvg },
-    ]
+    const dynamicCardsData = [
+      { id: 1, title: "TOTAL USDT", value: `${currentUser?.data?.usdtAmount?.toFixed(2)}`, icon: totalEarningsSvg },
+      { id: 2, title: "TOTAL AFRIQT", value: claimedStatus ? `${currentUser?.data?.tokenQuantity?.toFixed(2)}` : "0", icon: totalWidthrawalSvg },
+      ...(claimedStatus ? [{ id: 3, title: "TOTAL CLAIMED", value: `${currentUser?.data?.tokenQuantity?.toFixed(2)}`, icon: totalDepositSvg }] : []),
+    ];
+    
 
   return (
     <PagesWrapper>
-    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-5">
+    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5">
       {dynamicCardsData.map((card) => (
         <DashbaordCard key={card.id} title={card.title} value={card.value} icon={card.icon} />
       ))}
     </div>
-    <TotalEarnings/>
+    {claimedStatus ? <ClaimedBadge /> : <TotalEarnings />}
   </PagesWrapper>
   )
 }

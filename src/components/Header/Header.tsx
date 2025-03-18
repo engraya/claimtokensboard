@@ -19,7 +19,7 @@ export default function Header({ setShowSideBar, showSideBar }: Props) {
   const [openModal, setOpenModal] = useState(false);
     const dispatch = useDispatch();
 
-    // console.log("Current User", currentUser)
+    console.log("Current User", currentUser)
 
    const handlelogout = () => {
       dispatch(logoutUser());
