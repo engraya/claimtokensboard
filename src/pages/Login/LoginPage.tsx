@@ -1,6 +1,6 @@
 import Wrapper from '../../components/Wrapper/Wrapper'
 import { useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { useMutation } from "react-query";
 import { toast } from 'react-toastify';
