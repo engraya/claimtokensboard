@@ -1,6 +1,6 @@
 import Wrapper from '../../components/Wrapper/Wrapper'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { useMutation } from "react-query";
 import { toast } from 'react-toastify';
@@ -12,6 +12,8 @@ import { logo } from '../../assets';
 
 function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
+    const [lastFourDigits, setLastFourDigits] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
   
@@ -21,7 +23,7 @@ function LoginPage() {
     
     const [formData, setFormData] = useState({
       email: "",
-      phone: "",  // Added phone number field
+      phone: "",  
       password: "",
     });
   
@@ -83,10 +85,29 @@ function LoginPage() {
       mutation.mutate({ email, phone, password });
     };
 
+    // Function to fetch last four digits of phone number
+    const fetchUserLastFourDigitPhoneNumber = async (email: string) => {
+      if (!email) return; // Prevent empty email requests
+      setLoading(true);
+      try {
+        const response = await apiClient.get(`/v1/aast/account/phone/${email}`);
+        const userLastFourDigits = response?.data?.data || "";
+        setLastFourDigits(userLastFourDigits)
+        console.log("Digit Response", response)
+      } catch (error) {
+        console.error('User Data not found or error fetching data', error);
+      }
+      setLoading(false);
+    };
 
-    // const handleAuthRedirect = () => {
-    //   navigate("/dashboard"); 
-    // }
+    // Call fetch function when email changes
+    // useEffect(() => {
+    //   if (formData.email) {
+    //     fetchUserLastFourDigitPhoneNumber(formData.email);
+    //   }
+    // }, [formData.email]);
+
+
 
   return (
     <Wrapper>
@@ -102,7 +123,7 @@ function LoginPage() {
           </div>
           <form  onSubmit={handleSubmit} className="self-stretch flex-col justify-start items-start gap-8 flex">
             <div className="self-stretch flex-col justify-start items-start gap-6 flex">
-              <div className="self-stretch flex-col justify-start items-start gap-4 flex">
+              <div className="self-stretch flex-col justify-start items-start gap-6 flex">
 
                 {/* Email Field */}
                 <div className="self-stretch h-[78px] flex-col justify-start items-start gap-2 flex">
@@ -112,7 +133,13 @@ function LoginPage() {
                       type="email"
                       id="email"
                       value={formData.email}
-                      onChange={handleChange}
+                      onChange={e => {
+                        handleChange(e);
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+                        if (emailRegex.test(e.target.value)) { 
+                          fetchUserLastFourDigitPhoneNumber(e.target.value);
+                        }
+                      }}
                       className="text-gray-700 text-sm self-stretch h-12 px-5 py-[13px] bg-white rounded border border-[#6e7080] block w-full"
                       placeholder="Email address"
                       required
@@ -132,6 +159,17 @@ function LoginPage() {
                       placeholder="Phone number"
                       required
                     />
+                  {loading ? (
+                    <div className="flex items-center space-x-2 mt-1">
+                    <div className="w-4 h-4 border border-green-500 rounded-full animate-spin"></div>
+                    <p className="text-sm text-green-500">Fetching Last 4 Digits.......</p>
+                  </div>
+                  ) : (
+                    <div className="flex items-center space-x-2 mt-1">
+                    <p className="text-sm text-green-500">Hint : ...{lastFourDigits}</p>
+                  </div>
+                  ) 
+                  }
                   </div>
                 </div>
                 {/* Password Field */}
