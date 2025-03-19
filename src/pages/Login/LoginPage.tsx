@@ -14,6 +14,7 @@ function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [lastFourDigits, setLastFourDigits] = useState('');
     const [loading, setLoading] = useState(false);
+    const [isFormValid, setIsFormValid] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
   
@@ -26,11 +27,40 @@ function LoginPage() {
       phone: "",  
       password: "",
     });
+
+    const validateForm = (updatedData: { email: string; phone: string; password: string }) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isEmailValid = emailRegex.test(updatedData.email);
+      const isPhoneValid = updatedData.phone.length >= 10; // Adjust based on phone number rules
+      const isPasswordValid = updatedData.password.length >= 6; // Adjust password length requirement
+    
+      setIsFormValid(isEmailValid && isPhoneValid && isPasswordValid);
+    };
+    
   
+    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //   const { id, value } = e.target;
+    //   setFormData({ ...formData, [id]: value });
+    // };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { id, value } = e.target;
-      setFormData({ ...formData, [id]: value });
+      const updatedData = { ...formData, [id]: value };
+      setFormData(updatedData);
+      validateForm(updatedData);
+    
+      if (id === "email") {
+        if (!value.trim()) {
+          setLastFourDigits(""); // Clear hint when email is deleted
+        } else {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (emailRegex.test(value)) {
+            fetchUserLastFourDigitPhoneNumber(value);
+          }
+        }
+      }
     };
+    
   
 
     const mutation = useMutation(
@@ -159,17 +189,16 @@ function LoginPage() {
                       placeholder="Phone number"
                       required
                     />
-                  {loading ? (
-                    <div className="flex items-center space-x-2 mt-1">
-                    <div className="w-4 h-4 border border-green-500 rounded-full animate-spin"></div>
-                    <p className="text-sm text-green-500">Fetching Last 4 Digits.......</p>
-                  </div>
-                  ) : (
-                    <div className="flex items-center space-x-2 mt-1">
-                    <p className="text-sm text-green-500">Hint : ...{lastFourDigits}</p>
-                  </div>
-                  ) 
-                  }
+                    {loading ? (
+                      <div className="flex items-center space-x-2 mt-1">
+                        <div className="w-4 h-4 border border-green-500 rounded-full animate-spin"></div>
+                        <p className="text-sm text-green-500">Fetching Last 4 Digits.......</p>
+                      </div>
+                    ) : lastFourDigits ? ( // Ensure lastFourDigits is not empty
+                      <div className="flex items-center space-x-2 mt-1">
+                        <p className="text-sm text-green-500">Hint : ...{lastFourDigits}</p>
+                      </div>
+                    ) : null}
                   </div>
                 </div>
                 {/* Password Field */}
@@ -195,7 +224,8 @@ function LoginPage() {
               </div>
             </div>
             <button
-              disabled={mutation.isLoading}
+              type="submit"
+              disabled={!isFormValid || mutation.isLoading}
               className="self-stretch px-11 py-4 hover:bg-[#e1e3ef] bg-[#137af0] rounded justify-center cursor-pointer items-center inline-flex overflow-hidden group"
             >
               <div className="justify-center items-center gap-2 flex">
