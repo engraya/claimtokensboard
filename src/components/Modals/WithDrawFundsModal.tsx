@@ -11,6 +11,7 @@ type WithdarawModalProps = {
 function WithDrawFundsModal({ onClose } : WithdarawModalProps) {
     const currentUser = useSelector((state: any) => state.auth.currentUser);
     const userId = currentUser?.data?.userId;
+    const email = currentUser?.data?.email;
 
     const [walletAddress, setWalletAddress] = useState('');
     
@@ -19,7 +20,7 @@ function WithDrawFundsModal({ onClose } : WithdarawModalProps) {
     };
 
     const mutation = useMutation(
-        async (data: { userId: string; userWallet: string }) => {
+        async (data: { userId: string; userWallet: string, email : string }) => {
             const response = await apiClient.post(
                 "/v1/token/claim-tokens",
                 data
@@ -61,7 +62,7 @@ function WithDrawFundsModal({ onClose } : WithdarawModalProps) {
             toast.error("Wallet address and user ID are required!");
             return;
         }
-        mutation.mutate({ userId, userWallet: walletAddress });
+        mutation.mutate({ userId, userWallet: walletAddress, email });
     };
 
   return (
@@ -71,7 +72,7 @@ function WithDrawFundsModal({ onClose } : WithdarawModalProps) {
         <div className="grow shrink basis-0 text-[#202b3c] text-lg font-bold font-['Mulish'] leading-[27px]">Claim Tokens</div>
         <div onClick={onClose} className="w-[27.26px] cursor-pointer h-[27px] px-[2.27px] py-[2.25px] justify-center items-center flex">
         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.45232 0.249023H16.2995C20.1498 0.249023 22.728 2.92652 22.728 6.90902V16.1014C22.728 20.0726 20.1498 22.749 16.2995 22.749H6.45232C2.60203 22.749 0.0124512 20.0726 0.0124512 16.1014V6.90902C0.0124512 2.92652 2.60203 0.249023 6.45232 0.249023ZM14.789 14.8743C15.1752 14.493 15.1752 13.8742 14.789 13.4917L12.7673 11.4892L14.789 9.48559C15.1752 9.10422 15.1752 8.47422 14.789 8.09172C14.4028 7.70809 13.7782 7.70809 13.3806 8.09172L11.3703 10.0931L9.34861 8.09172C8.95109 7.70809 8.32641 7.70809 7.94025 8.09172C7.55408 8.47422 7.55408 9.10422 7.94025 9.48559L9.96194 11.4892L7.94025 13.4805C7.55408 13.8742 7.55408 14.493 7.94025 14.8743C8.13333 15.0656 8.39456 15.168 8.64443 15.168C8.90566 15.168 9.15553 15.0656 9.34861 14.8743L11.3703 12.8842L13.392 14.8743C13.5851 15.078 13.8349 15.168 14.0848 15.168C14.346 15.168 14.5959 15.0656 14.789 14.8743Z" fill="#6E7180"/>
+            <path fillRule="evenodd" clipRule="evenodd" d="M6.45232 0.249023H16.2995C20.1498 0.249023 22.728 2.92652 22.728 6.90902V16.1014C22.728 20.0726 20.1498 22.749 16.2995 22.749H6.45232C2.60203 22.749 0.0124512 20.0726 0.0124512 16.1014V6.90902C0.0124512 2.92652 2.60203 0.249023 6.45232 0.249023ZM14.789 14.8743C15.1752 14.493 15.1752 13.8742 14.789 13.4917L12.7673 11.4892L14.789 9.48559C15.1752 9.10422 15.1752 8.47422 14.789 8.09172C14.4028 7.70809 13.7782 7.70809 13.3806 8.09172L11.3703 10.0931L9.34861 8.09172C8.95109 7.70809 8.32641 7.70809 7.94025 8.09172C7.55408 8.47422 7.55408 9.10422 7.94025 9.48559L9.96194 11.4892L7.94025 13.4805C7.55408 13.8742 7.55408 14.493 7.94025 14.8743C8.13333 15.0656 8.39456 15.168 8.64443 15.168C8.90566 15.168 9.15553 15.0656 9.34861 14.8743L11.3703 12.8842L13.392 14.8743C13.5851 15.078 13.8349 15.168 14.0848 15.168C14.346 15.168 14.5959 15.0656 14.789 14.8743Z" fill="#6E7180"/>
             </svg>
         </div>
     </div>
@@ -88,7 +89,7 @@ function WithDrawFundsModal({ onClose } : WithdarawModalProps) {
                         id="address"
                         value={walletAddress}
                         onChange={handleChange}
-                        className="text-gray-900 text-sm self-stretch h-12 px-5 py-[8px] bg-white rounded border border-[#dcdfea] justify-start items-center gap-4  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600"
+                        className="text-gray-900 text-sm self-stretch h-12 px-5 py-[8px] bg-white rounded border border-gray-900 justify-start items-center gap-4  block w-full p-2.5"
                         placeholder="Enter your wallet address here"
                         required
                         />
