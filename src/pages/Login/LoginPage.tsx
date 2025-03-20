@@ -239,8 +239,8 @@ function LoginPage() {
             </div>
             <button
               type="submit"
-              disabled={!isFormValid || mutation.isLoading}
-              className="self-stretch px-11 py-4 disabled:bg-[#d8dbee] bg-[#137af0] rounded justify-center cursor-pointer items-center inline-flex overflow-hidden group"
+              disabled={mutation.isLoading}
+              className="self-stretch px-11 py-4 hover:bg-[#d8dbee] bg-[#137af0] rounded justify-center cursor-pointer items-center inline-flex overflow-hidden group"
             >
               <div className="justify-center items-center gap-2 flex">
                 <div className="text-gray-50 group-hover:text-white text-base font-medium">
