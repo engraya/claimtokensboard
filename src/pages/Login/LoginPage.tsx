@@ -15,6 +15,7 @@ function LoginPage() {
     const [lastFourDigits, setLastFourDigits] = useState('');
     const [loading, setLoading] = useState(false);
     const [isFormValid, setIsFormValid] = useState(false);
+    const [isFetchEnabled, setIsFetchEnabled] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
   
@@ -31,33 +32,40 @@ function LoginPage() {
     const validateForm = (updatedData: { email: string; phone: string; password: string }) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const isEmailValid = emailRegex.test(updatedData.email);
-      const isPhoneValid = updatedData.phone.length >= 10; // Adjust based on phone number rules
-      const isPasswordValid = updatedData.password.length >= 6; // Adjust password length requirement
+      const isPhoneValid = updatedData.phone.length >= 10; 
+      const isPasswordValid = updatedData.password.length >= 6;
     
       setIsFormValid(isEmailValid && isPhoneValid && isPasswordValid);
     };
     
-  
+
     // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     //   const { id, value } = e.target;
-    //   setFormData({ ...formData, [id]: value });
+    //   const updatedData = { ...formData, [id]: value };
+    //   setFormData(updatedData);
+    //   validateForm(updatedData);
+    
+    //   if (id === "email") {
+    //     if (!value.trim()) {
+    //       setLastFourDigits(""); // Clear hint when email is deleted
+    //     } else {
+    //       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //       if (emailRegex.test(value)) {
+    //         fetchUserLastFourDigitPhoneNumber(value);
+    //       }
+    //     }
+    //   }
     // };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
       const { id, value } = e.target;
       const updatedData = { ...formData, [id]: value };
       setFormData(updatedData);
       validateForm(updatedData);
     
       if (id === "email") {
-        if (!value.trim()) {
-          setLastFourDigits(""); // Clear hint when email is deleted
-        } else {
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (emailRegex.test(value)) {
-            fetchUserLastFourDigitPhoneNumber(value);
-          }
-        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        setIsFetchEnabled(emailRegex.test(value)); 
       }
     };
     
@@ -130,12 +138,6 @@ function LoginPage() {
       setLoading(false);
     };
 
-    // Call fetch function when email changes
-    // useEffect(() => {
-    //   if (formData.email) {
-    //     fetchUserLastFourDigitPhoneNumber(formData.email);
-    //   }
-    // }, [formData.email]);
 
 
 
@@ -189,16 +191,28 @@ function LoginPage() {
                       placeholder="Phone number"
                       required
                     />
+                    <div className='w-full flex justify-between'>
+                {/* Fetch Button */}
+                    <span 
+                      // @ts-ignore
+                      onClick={isFetchEnabled ? fetchUserLastFourDigitPhoneNumber : undefined}
+                      className={`text-xs sm:text-sm mt-1 px-2 cursor-pointer ${isFetchEnabled ? 'text-green-500' : 'text-gray-300 italic underline cursor-not-allowed'}`}
+                    >
+                      Fetch Last 4 Digits
+                    </span>
+                    {/* Loading or Hint */}
                     {loading ? (
                       <div className="flex items-center space-x-2 mt-1">
                         <div className="w-4 h-4 border border-green-500 rounded-full animate-spin"></div>
-                        <p className="text-sm text-green-500">Fetching Last 4 Digits.......</p>
+                        <p className="text-xs sm:text-sm text-green-500">Fetching...</p>
                       </div>
-                    ) : lastFourDigits ? ( // Ensure lastFourDigits is not empty
+                    ) : lastFourDigits && formData.email && (
                       <div className="flex items-center space-x-2 mt-1">
-                        <p className="text-sm text-green-500">Hint : ...{lastFourDigits}</p>
+                        <p className="text-xs sm:text-sm text-green-500">Hint: ...{lastFourDigits}</p>
                       </div>
-                    ) : null}
+                    )}
+                    </div>
+    
                   </div>
                 </div>
                 {/* Password Field */}
@@ -226,7 +240,7 @@ function LoginPage() {
             <button
               type="submit"
               disabled={!isFormValid || mutation.isLoading}
-              className="self-stretch px-11 py-4 hover:bg-[#e1e3ef] bg-[#137af0] rounded justify-center cursor-pointer items-center inline-flex overflow-hidden group"
+              className="self-stretch px-11 py-4 disabled:bg-[#d8dbee] bg-[#137af0] rounded justify-center cursor-pointer items-center inline-flex overflow-hidden group"
             >
               <div className="justify-center items-center gap-2 flex">
                 <div className="text-gray-50 group-hover:text-white text-base font-medium">
