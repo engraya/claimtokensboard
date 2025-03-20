@@ -14,7 +14,7 @@ function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [lastFourDigits, setLastFourDigits] = useState('');
     const [loading, setLoading] = useState(false);
-    const [isFormValid, setIsFormValid] = useState(false);
+    const [_isFormValid, setIsFormValid] = useState(false);
     const [isFetchEnabled, setIsFetchEnabled] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
