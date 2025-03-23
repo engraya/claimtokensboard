@@ -31,7 +31,7 @@ function Dashboard() {
     // Dynamically map statsData to card structure
     const dynamicCardsData = [
       { id: 1, title: "TOTAL USDT", value: `${currentUser?.data?.usdtAmount?.toFixed(2)}`, icon: totalEarningsSvg },
-      { id: 2, title: "TOTAL AFRIQT", value: claimedStatus ? `${currentUser?.data?.tokenQuantity?.toFixed(2)}` : "0", icon: totalWidthrawalSvg },
+      { id: 2, title: "TOTAL AFRIQT", value: `${currentUser?.data?.tokenQuantity?.toFixed(2)}`, icon: totalWidthrawalSvg },
       ...(claimedStatus ? [{ id: 3, title: "TOTAL CLAIMED", value: `${currentUser?.data?.tokenQuantity?.toFixed(2)}`, icon: totalDepositSvg }] : []),
     ];
     
