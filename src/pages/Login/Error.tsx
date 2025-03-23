@@ -6,7 +6,9 @@ function Error() {
     <div className="mb-8">
       <h2 className="mt-6 text-6xl font-extrabold text-gray-900 dark:text-gray-100">404</h2>
       <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-gray-100">We're Sorry! 🚧</p>
-      <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">Our website is currently undergoing maintenance as we work to enhance your experience. We’re sorry for the inconvenience and appreciate your patience.</p>
+      <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+      The token claiming process has already begun, but due to a system breach, we’ve temporarily taken the platform offline to ensure security and stability. Our team is actively working to resolve the issue, and we expect everything to be back up and running within the next 6 hours.
+      </p>
     </div>
   </div>
   <div className="w-full max-w-2xl">
@@ -16,7 +18,7 @@ function Error() {
       </div>
       <div className="relative flex justify-center">
         <span className="px-2 bg-gray-100 dark:bg-gray-800 text-sm text-gray-500 dark:text-gray-400">
-        We’ll be back online soon with exciting updates!🚀
+        We appreciate your patience and understanding. Claiming will resume as soon as the system is fully restored—stay tuned! 🚀
         </span>
       </div>
     </div>
