@@ -1,8 +1,10 @@
-import LoginPage from '../Login/LoginPage'
+// import LoginPage from '../Login/LoginPage'
+import Error from '../Login/Error'
 function AuthPage() {
   return (
     <div>
-      <LoginPage />
+      {/* <LoginPage /> */}
+      <Error />
     </div>
   )
 }

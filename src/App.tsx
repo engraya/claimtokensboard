@@ -8,6 +8,8 @@ import PublicRoute from "./routes/PublicRoute";
 import AuthPage from "./pages/Auth/AuthPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Error from "./pages/Login/Error";
+
 
 // Custom theme for Flowbite
 const customTheme = {
@@ -43,7 +45,8 @@ function App() {
             <Routes>
               <Route path="/auth" element={<PublicRoute />}>
                 <Route path="/auth" element={<AuthPage />} />
-                <Route path="/auth/login" element={<LoginPage />} />
+                <Route path="/auth/login" element={<Error />} />
+                <Route path="/auth/login" element={<Error />} />
               </Route>
               <Route path="/" element={<PrivateRoute />}>
               <Route path="/" element={<Main />}>
