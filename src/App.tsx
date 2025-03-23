@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import PrivateRoute from "./routes/PrivateRoute";
 import Main from "./components/Main/Main";
 import { Flowbite } from "flowbite-react";
-import LoginPage from "./pages/Login/LoginPage";
+// import LoginPage from "./pages/Login/LoginPage";
 import PublicRoute from "./routes/PublicRoute";
 import AuthPage from "./pages/Auth/AuthPage";
 import { ToastContainer } from "react-toastify";
